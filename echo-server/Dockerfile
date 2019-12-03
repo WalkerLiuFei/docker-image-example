@@ -17,5 +17,7 @@ RUN go build   -ldflags="-w -s"  -o /go/bin/simple-server
 FROM scratch
 # Copy our static executable.
 COPY --from=builder /go/bin/simple-server /go/bin/simple-server
+# make simple-server excutable
+RUN ["chmod", "+x", "/go/bin/simple-server"]
 # Run the hello binary.
 ENTRYPOINT ["/go/bin/simple-server"]
