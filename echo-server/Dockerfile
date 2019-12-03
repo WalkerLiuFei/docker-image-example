@@ -18,5 +18,4 @@ FROM scratch
 # Copy our static executable.
 COPY --from=builder /go/bin/simple-server /go/bin/simple-server
 # Run the hello binary.
-ENTRYPOINT ["/go/bin/s
-imple-server"]
+ENTRYPOINT ["/go/bin/simple-server"]
