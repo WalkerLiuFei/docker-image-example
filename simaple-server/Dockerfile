@@ -8,16 +8,14 @@ FROM golang:alpine AS builder
 RUN apk update && apk add --no-cache git
 WORKDIR $GOPATH/src/mypackage/myapp/
 COPY . .
-# Fetch dependencies.
-# Using go get.
-RUN go get -d -v
+
 # Build the binary.
-RUN go build -o /go/bin/siample-server
+RUN go build GOARCH=amd64 go build -ldflags="-w -s"  -o /go/bin/simple-server
 ############################
 # STEP 2 build a small image
 ############################
 FROM scratch
 # Copy our static executable.
-COPY --from=builder /go/bin/siample-server /go/bin/siample-server
+COPY --from=builder /go/bin/simple-server /go/bin/simple-server
 # Run the hello binary.
-ENTRYPOINT ["/go/bin/siample-server"]
+ENTRYPOINT ["/go/bin/simple-server"]
