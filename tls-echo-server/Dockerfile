@@ -21,8 +21,8 @@ FROM scratch
 # Copy user from builder
 COPY --from=builder /etc/passwd /etc/passwd
 
-# Copy private key
-COPY --from=builder /go/bin/asset /go/bin/asset
+# Copy private key,copy directory need add slash '/'
+COPY --from=builder /go/bin/asset/ /go/bin/asset/
 # Copy our static executable.
 COPY --from=builder /go/bin/echo-server /go/bin/echo-server
 # Use unprivileged user
