@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net"
+	"os"
 )
 
 func accept(listener net.Listener) {
@@ -38,7 +39,16 @@ func handleConn(conn net.Conn) {
 	}
 }
 func main() {
-	certificate, err := tls.LoadX509KeyPair("./asset/server.crt", "./asset/server.key")
+	var crtFilePath string
+	var keyFilePath string
+	if len(os.Args) != 3 {
+		crtFilePath = "./asset/server.crt"
+		keyFilePath = "./asset/server.key"
+	} else {
+		crtFilePath = os.Args[1]
+		keyFilePath = os.Args[2]
+	}
+	certificate, err := tls.LoadX509KeyPair(crtFilePath, keyFilePath)
 	if err != nil {
 		fmt.Printf("Load certificate error %s \n", err.Error())
 	}

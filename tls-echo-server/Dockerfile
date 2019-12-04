@@ -30,4 +30,4 @@ USER appuser
 
 EXPOSE 8888/tcp
 # Run the echo-server binary.
-ENTRYPOINT ["/go/bin/echo-server"]
+ENTRYPOINT ["/go/bin/echo-server /go/bin/asset/server.crt  /go/bin/asset/server.key" ]
