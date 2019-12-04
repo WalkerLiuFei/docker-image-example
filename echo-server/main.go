@@ -1,4 +1,4 @@
-package simaple_server
+package main
 
 import (
 	"bufio"
