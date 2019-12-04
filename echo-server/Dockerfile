@@ -10,7 +10,7 @@ WORKDIR $GOPATH/src/docker-image-example/echo-server
 COPY . .
 
 # Build the binary.
-RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o   /go/bin/echo-server
+RUN CGO_ENABLED=0 go build -ldflags="-w -s" -o   /go/bin/echo-server
 RUN chmod +x /go/bin/echo-server
 ############################
 # STEP 2 build a small image
@@ -19,5 +19,5 @@ FROM scratch
 # Copy our static executable.
 COPY --from=builder /go/bin/echo-server /go/bin/echo-server
 EXPOSE 8888/tcp
-# Run the hello binary.
+# Run the echo-server binary.
 ENTRYPOINT ["/go/bin/echo-server"]
