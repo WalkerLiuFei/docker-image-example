@@ -12,7 +12,7 @@ COPY . .
 
 # Build the binary. cgo must be disable!
 RUN CGO_ENABLED=0 go build -ldflags="-w -s" -o   /go/bin/echo-server
-RUN copy $GOPATH/src/docker-image-example/echo-server/asset /go/bin/asset
+RUN cp $GOPATH/src/docker-image-example/echo-server/asset /go/bin/asset
 RUN chmod +x /go/bin/echo-server
 ############################
 # STEP 2 build a small image
