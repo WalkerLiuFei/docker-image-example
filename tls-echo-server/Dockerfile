@@ -19,7 +19,10 @@ RUN chmod +x /go/bin/echo-server
 FROM scratch
 # Copy user from builder
 COPY --from=builder /etc/passwd /etc/passwd
-
+#Copy zoneinfo from builder
+COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
+# Copy private key
+COPY --from=builder $GOPATH/src/docker-image-example/echo-server/asset /go/bin/asset
 # Copy our static executable.
 COPY --from=builder /go/bin/echo-server /go/bin/echo-server
 # Use unprivileged user
