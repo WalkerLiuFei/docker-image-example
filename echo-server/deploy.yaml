@@ -9,6 +9,8 @@ spec:
   selector:
     matchLabels:
       app: echo-server
+  strategy:
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -17,5 +19,14 @@ spec:
       containers:
         - name: echo-server
           image: walkerliu/echo-server-example
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 500m
+              memory: 256mi
+            requests:
+              cpu: 1000m
+              memory: 526Mi
           ports:
             - containerPort: 8888 # use 8888 as expose port
+      schedulerName: default-scheduler
