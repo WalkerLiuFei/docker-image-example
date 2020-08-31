@@ -22,11 +22,11 @@ spec:
           imagePullPolicy: Always
           resources:
             limits:
-              cpu: 500m
-              memory: 256Mi
-            requests:
               cpu: 1000m
               memory: 526Mi
+            requests:
+              cpu: 500m
+              memory: 256Mi
           ports:
             - containerPort: 8888 # use 8888 as expose port
       schedulerName: default-scheduler
