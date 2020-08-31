@@ -1,8 +1,8 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: Deployment # what kind of object you want to create, [Deployment,Service,Replica Set,Replication Controller, StateFulSets,DaemonSet,...]
 metadata:
   name: echo-server-deployment
-  labels:
+  labels: ## labels 没什么特别意义
     app: echo-server
 spec:
   replicas: 2

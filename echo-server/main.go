@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net"
+	"runtime"
 )
 
 func accept(listener net.Listener) {
@@ -32,6 +33,7 @@ func handleConn(conn net.Conn) {
 	}
 }
 func main() {
+	fmt.Printf("max CPU core number is %d\n",runtime.NumCPU())
 	listener, err := net.Listen("tcp", ":8888")
 	if err != nil {
 		panic(err)

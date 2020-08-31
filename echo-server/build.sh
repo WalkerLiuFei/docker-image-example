@@ -3,7 +3,7 @@ echo "Start build image"
 docker build --tag walkerliu/echo-server-example:latest .
 echo "Build image done"
 docker image ls | grep echo-server
-echo "push to remote docker hub,"
+echo "push to remote docker hub...."
 docker push walkerliu/echo-server-example:latest
 echo "run "
 
