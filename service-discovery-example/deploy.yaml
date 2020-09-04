@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment # what kind of object you want to create, [Deployment,Service,Replica Set,Replication Controller, StateFulSets,DaemonSet,...]
+metadata:
+  name: service-discovery-example-deployment
+  labels: ## labels 没什么特别意义
+    app: service-discovery-example
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: service-discovery-example
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: echo-server
+    spec:
+      containers:
+        - name: echo-server
+          image: walkerliu/service-discovery-example
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 250m
+              memory: 125Mi
+            requests:
+              cpu:  250m
+              memory: 25Mi
+      schedulerName: default-scheduler
