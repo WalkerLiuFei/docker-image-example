@@ -5,7 +5,7 @@ metadata:
   labels: ## labels 没什么特别意义
     app: service-discovery-example
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: service-discovery-example
@@ -14,17 +14,10 @@ spec:
   template:
     metadata:
       labels:
-        app: service-discovery
+        app: service-discovery-example
     spec:
       containers:
-        - name: service-discovery
+        - name: service-discovery-example
           image: walkerliu/service-discovery-example
           imagePullPolicy: Always
-          resources:
-            limits:
-              cpu: 250m
-              memory: 125Mi
-            requests:
-              cpu:  250m
-              memory: 25Mi
       schedulerName: default-scheduler

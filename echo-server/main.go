@@ -8,6 +8,8 @@ import (
 	"runtime"
 )
 
+const delimiter = '\n'
+
 func accept(listener net.Listener) {
 	for true {
 		conn, err := listener.Accept()
@@ -23,7 +25,7 @@ func handleConn(conn net.Conn) {
 	defer conn.Close()
 	reader := bufio.NewReader(conn)
 	for true {
-		data, err := reader.ReadBytes('\n')
+		data, err := reader.ReadBytes(delimiter)
 		if err != nil {
 			fmt.Printf("Error read data ：%s", err.Error())
 			conn.Close()
@@ -33,7 +35,7 @@ func handleConn(conn net.Conn) {
 	}
 }
 func main() {
-	fmt.Printf("max CPU core number is %d\n",runtime.NumCPU())
+	fmt.Printf("max CPU core number is %d\n", runtime.NumCPU())
 	listener, err := net.Listen("tcp", ":8888")
 	if err != nil {
 		panic(err)
