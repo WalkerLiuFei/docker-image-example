@@ -1,13 +1,15 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net"
 	"time"
 )
 
-const delimiter = "\n"
+const delimiter = '\n'
 
 func main() {
 	// 直接DNS 拿对应服务地址
@@ -24,15 +26,16 @@ func main() {
 	port := 8888
 	addressesBytes, err := json.Marshal(addresses)
 	fmt.Println(string(addressesBytes))
-	waitChannel := make(chan int, 0)
+	//waitChannel := make(chan int, 0)
 	for _, address := range addresses {
-		for count := 10; count >= 0; count++ {
+		doConnect(address, port)
+		/*for count := 10; count >= 0; count++ {
 			go func(address string) {
-				go doConnect(address, port)
+				go
 			}(address)
-		}
+		}*/
 	}
-	<-waitChannel
+	//<-waitChannel
 }
 
 func doConnect(address string, port int) {
@@ -42,16 +45,29 @@ func doConnect(address string, port int) {
 		fmt.Println(err.Error())
 		return
 	}
-	fmt.Printf("%s\n", conn.RemoteAddr())
+	fmt.Printf("connect to echo server success : %s\n", conn.RemoteAddr())
 	doTicker(conn)
 }
 
 func doTicker(conn net.Conn) {
+	reader := bufio.NewReader(conn)
+	writer := bufio.NewWriter(conn)
+	go func() {
+		for true {
+			data, err := reader.ReadBytes(delimiter)
+			if err != nil {
+				fmt.Printf("Error read data ：%s", err.Error())
+				conn.Close()
+			}
+			fmt.Printf("from client : %s ", string(data))
+			io.WriteString(conn, "Received\n")
+		}
+	}()
 	ticker := time.NewTicker(time.Second)
 	index := 0
 	for range ticker.C {
-		msg := fmt.Sprintf("this is a message %d %s", index, delimiter)
-		_, err := conn.Write([]byte(msg))
+		msg := fmt.Sprintf("this is a message %d \n", index)
+		_, err := writer.Write([]byte(msg))
 		if err != nil {
 			fmt.Printf("write message failed %s\n", err.Error())
 		}
