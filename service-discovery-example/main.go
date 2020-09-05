@@ -58,6 +58,7 @@ func doTicker(conn net.Conn) {
 			if err != nil {
 				fmt.Printf("Error read data ：%s", err.Error())
 				conn.Close()
+				return
 			}
 			fmt.Printf("from client : %s ", string(data))
 			io.WriteString(conn, "Received\n")
@@ -70,6 +71,8 @@ func doTicker(conn net.Conn) {
 		_, err := writer.Write([]byte(msg))
 		if err != nil {
 			fmt.Printf("write message failed %s\n", err.Error())
+			conn.Close()
+			return
 		}
 		index++
 	}
