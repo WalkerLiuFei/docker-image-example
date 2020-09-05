@@ -11,9 +11,14 @@ const delimiter = "\n"
 
 func main() {
 	// 直接DNS 拿对应服务地址
-	addresses, err := net.LookupHost("echo-server-service.default.svc.cluster.local")
+	serviceName := "echo-server-service.default.svc.cluster.local"
+	addresses, err := net.LookupHost(serviceName)
 	if err != nil {
-		fmt.Println(err.Error())
+		fmt.Printf("lookup address failed %s\n", err.Error())
+	}
+	port, err := net.LookupPort("tcp", serviceName)
+	if err != nil {
+		fmt.Printf("lookup port failed %s\n", err.Error())
 	}
 	addressesBytes, err := json.Marshal(addresses)
 	fmt.Println(string(addressesBytes))
@@ -21,14 +26,15 @@ func main() {
 	for _, address := range addresses {
 		for count := 10; count >= 0; count++ {
 			go func(address string) {
-				go doConnect(address)
+				go doConnect(address, port)
 			}(address)
 		}
 	}
 	<-waitChannel
 }
 
-func doConnect(address string) {
+func doConnect(address string, port int) {
+	address = fmt.Sprintf("%s:%d", address, port)
 	conn, err := net.Dial("tcp", address)
 	if err != nil {
 		fmt.Println(err.Error())
