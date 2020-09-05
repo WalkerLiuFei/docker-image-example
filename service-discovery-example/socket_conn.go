@@ -70,7 +70,7 @@ func doTicker(conn net.Conn) {
 	for range ticker.C {
 		msg := fmt.Sprintf("this is a message %d \n", index)
 		n, err := writer.Write([]byte(msg))
-		fmt.Printf("msg write done")
+		fmt.Printf("msg [%s] write done %d\n", msg, n)
 		if err != nil {
 			fmt.Printf("write message failed %s\n", err.Error())
 			conn.Close()
