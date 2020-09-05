@@ -29,6 +29,7 @@ func handleConn(conn net.Conn) {
 		if err != nil {
 			fmt.Printf("Error read data ：%s", err.Error())
 			conn.Close()
+			return
 		}
 		fmt.Printf("from client : %s ", string(data))
 		io.WriteString(conn, "Received\n")
