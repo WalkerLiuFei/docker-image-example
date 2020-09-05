@@ -12,6 +12,7 @@ func main() {
 	http.HandleFunc("/test", func(writer http.ResponseWriter, request *http.Request) {
 		responseStr := fmt.Sprintf("request from %s,response from %s", request.RemoteAddr, GetLocalIP())
 		writer.Write([]byte(responseStr))
+		fmt.Println(responseStr)
 	})
 	http.ListenAndServe("0.0.0.0:8888", nil)
 	fmt.Println("Server start successful")
