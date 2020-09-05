@@ -16,10 +16,12 @@ func main() {
 	if err != nil {
 		fmt.Printf("lookup address failed %s\n", err.Error())
 	}
-	port, err := net.LookupPort("tcp", serviceName)
+	/*port, err := net.LookupPort("tcp", serviceName)
+
 	if err != nil {
 		fmt.Printf("lookup port failed %s\n", err.Error())
-	}
+	}*/
+	port := 8888
 	addressesBytes, err := json.Marshal(addresses)
 	fmt.Println(string(addressesBytes))
 	waitChannel := make(chan int, 0)
