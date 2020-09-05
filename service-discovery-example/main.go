@@ -28,12 +28,11 @@ func main() {
 	fmt.Println(string(addressesBytes))
 	//waitChannel := make(chan int, 0)
 	for _, address := range addresses {
-		doConnect(address, port)
-		/*for count := 10; count >= 0; count++ {
+		for count := 1; count >= 0; count++ {
 			go func(address string) {
-				go
+				doConnect(address, port)
 			}(address)
-		}*/
+		}
 	}
 	//<-waitChannel
 }
@@ -47,6 +46,7 @@ func doConnect(address string, port int) {
 	}
 	fmt.Printf("connect to echo server success : %s\n", conn.RemoteAddr())
 	doTicker(conn)
+
 }
 
 func doTicker(conn net.Conn) {
