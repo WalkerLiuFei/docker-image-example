@@ -14,10 +14,10 @@ spec:
   template:
     metadata:
       labels:
-        app: echo-server
+        app: service-discovery
     spec:
       containers:
-        - name: echo-server
+        - name: service-discovery
           image: walkerliu/service-discovery-example
           imagePullPolicy: Always
           resources:
